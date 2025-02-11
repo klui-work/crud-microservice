@@ -49,7 +49,6 @@ func (p *ProductRepository) DeleteProduct(productId string) error {
 }
 
 func (p *ProductRepository) GetProductByQuery(query entities.QueryProduct) ([]entities.Product, error) {
-	fmt.Println("query", query)
 	filter := bson.M{}
 	if query.ProductId != "" {
 		filter["product_id"] = query.ProductId
