@@ -15,8 +15,8 @@ func main() {
 	r := gin.Default()
 	conf.LoadConfig()
 	initAdapter := injector.InitializeAdapter()
-	r.GET("/health-check", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
+	r.GET("/health-check", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
 			"message": "statusOK",
 		})
 	})

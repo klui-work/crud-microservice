@@ -8,13 +8,15 @@ import (
 
 func StartProductRTL(e *gin.Engine, ctl controller.IProductController) {
 	groupTest := e.Group("/api/product/health-check")
-	groupTest.GET("", ctl.HealthCheck)
+	{
+		groupTest.GET("", ctl.HealthCheck)
+	}
 
 	groupProduct := e.Group("/api/product")
 	{
 		groupProduct.POST("", ctl.CreateProductController)
 		groupProduct.PUT("", ctl.UpdateProductController)
-		groupProduct.DELETE("", ctl.DeleteProductController)
+		groupProduct.DELETE(":product_id", ctl.DeleteProductController)
 		groupProduct.GET("", ctl.GetProductByQueryController)
 	}
 }

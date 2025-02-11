@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"crud/application/dtos"
+	"crud/application/mappers"
 	"crud/domain/entities"
 	"crud/domain/repository"
 	"crud/domain/service"
@@ -12,19 +13,26 @@ type productService struct {
 }
 
 func (p *productService) CreateProductService(product dtos.ProductDto) error {
-	return nil
+	productEntity := mappers.ProductMapper(product)
+	return p.productRepo.CreateProduct(productEntity)
 }
 
-func (p *productService) UpdateProductService(product dtos.ProductDto) error {
-	return nil
+func (p *productService) UpdateProductService(product dtos.ProducUpdatetDto) error {
+	productEntity := mappers.UpdateProductMapper(product)
+	return p.productRepo.UpdateProduct(productEntity)
 }
 
 func (p *productService) DeleteProductService(productId string) error {
-	return nil
+	return p.productRepo.DeleteProduct(productId)
 }
 
 func (p *productService) GetProductByQueryService(query dtos.QueryProduct) ([]entities.Product, error) {
-	return nil, nil
+	queryEntity := mappers.QueryProductMapper(query)
+	results, err := p.productRepo.GetProductByQuery(queryEntity)
+	if err != nil {
+		return []entities.Product{}, err
+	}
+	return results, nil
 }
 
 func NewProductService(
