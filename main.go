@@ -2,25 +2,25 @@ package main
 
 import (
 	"crud/infra/conf"
-	"fmt"
 
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"crud/adapters/inbound/api/router"
+	"crud/infra/injector"
 
-	"crud/infra/persistence"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
 	conf.LoadConfig()
-	mongo := persistence.SetupMongoDB()
-	fmt.Println(mongo)
+	initAdapter := injector.InitializeAdapter()
 	r.GET("/health-check", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "statusOK",
 		})
 	})
+	router.StartProductRTL(r, initAdapter.InitialProductController)
 	r.Run(conf.Env.Port)
 
 }

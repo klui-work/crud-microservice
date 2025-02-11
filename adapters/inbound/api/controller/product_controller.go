@@ -12,6 +12,12 @@ type ProductController struct {
 	productService service.IProductService
 }
 
+func (p ProductController) HealthCheck(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Product API is running",
+	})
+}
+
 func (p ProductController) CreateProductController(c *gin.Context) {
 	var product dtos.ProductDto
 	if err := c.ShouldBindJSON(&product); err != nil {
@@ -31,7 +37,7 @@ func (p ProductController) CreateProductController(c *gin.Context) {
 	})
 }
 
-func (p ProductController) UpdateProductService(c *gin.Context) {
+func (p ProductController) UpdateProductController(c *gin.Context) {
 	var product dtos.ProductDto
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
