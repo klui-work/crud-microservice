@@ -64,6 +64,9 @@ func (p *ProductRepository) GetProductByQuery(query entities.QueryProduct) ([]en
 	if err := cursor.All(context.Background(), &products); err != nil {
 		return []entities.Product{}, err
 	}
+	if len(products) == 0 {
+		return []entities.Product{}, nil
+	}
 	return products, nil
 }
 
